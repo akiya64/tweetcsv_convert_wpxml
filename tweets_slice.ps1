@@ -1,20 +1,22 @@
 ﻿<#
-q を使ったCSVの日別抽出
+Slice CSV by day used by "q" 
 https://github.com/harelba/q
 
-件数取得
+Example
+Count record
 q -d ',' "SELECT COUNT(*) FROM tweets"
-特定IDの投稿本文取得
+
+Tweet text by Unique ID
 q -E sjis -d ',' "SELECT c6 FROM tweets WHERE c1='763551255906004992'"
 #>
-cd D:\
 
-echo 行数カウント
-echo "q -d `',`' `"SELECT COUNT(*) FROM tweets.`""
+Set-Location (Split-Path $MyInvocation.MyCommand.Path -parent)
 
-q -d ',' "SELECT COUNT(*) FROM tweets.csv"
+echo "Get Records Count ..."
 
-echo `r
+$c = q -d ',' "SELECT COUNT(*) FROM tweets.csv"
+
+echo "$c Tweets."`r`r
 
 $StartDay =  Get-Date(Get-Date -Date 2009-07-03)
 $EndDay = Get-Date(Get-Date -Date 2011-07-03)
@@ -26,12 +28,13 @@ for ($i = 10 ;  $i -lt 15 ; $i++){
     
     echo $Title
 
-    $Query = "`"SELECT c1,c6 FROM tweets.csv WHERE c4 LIKE `'$day%`' AND c6 NOT Like `'@%`'`""
+    # Select by Column No.Cutoff header. And timstamp is string, so use "like" syntax
+    $Query = "`"SELECT c1,c6 FROM ./tweets.csv WHERE c4 LIKE `'$day%`' AND c6 NOT Like `'@%`'`""
 
     $DaysTweet = q -d ',' $Query
 
     echo $DaysTweet
-    echo "`r"
+    echo `r
 
     Get-TypeData($DaysTweet)
         }
