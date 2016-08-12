@@ -5,4 +5,4 @@ A Windows PowerShell script, CSV include all Tweet convert to XML for WordPress 
 ### Require
 
 1. [q](https://github.com/harelba/q)
-2. CSV file header cut-off.
+2. Cut-off CSV header.
