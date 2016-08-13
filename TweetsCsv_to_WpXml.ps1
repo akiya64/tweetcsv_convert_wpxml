@@ -19,7 +19,8 @@ Post meta
 
 #0. Check file exist And execute q 
 
-Set-Location (Split-Path $MyInvocation.MyCommand.Path -parent)
+SET THIS_PATH (Split-Path $MyInvocation.MyCommand.Path -parent) -Option Constant
+Set-Location ($THIS_PATH)
 
 echo "Get Records Count ..."
 
@@ -74,4 +75,4 @@ for ($i = 0 ;  $i -lt 3 ; $i++){
 
 }
 
-$WpXml.Save('D:\wp.xml')
+$WpXml.Save($THIS_PATH + "\wp.xml")
