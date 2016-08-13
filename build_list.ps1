@@ -12,6 +12,8 @@ ResultQ[1]   1234678099, tweet2
 
 param([array] $TwArr)
 
+$TwLi = "<ul>`r"
+
 foreach($Row in $TwArr){
     
     $TwArr = $Row.Split(",")
@@ -22,11 +24,13 @@ foreach($Row in $TwArr){
     $TwUrL = "https://twitter.com/K_akiya/status/" + $TwArr[0]
 
 $Tw = @"
-<li>$TwText <a href=`"$TwUrl`" target=`"_blank`">-></a></li>
+    <li>$TwText <a href=`"$TwUrl`" target=`"_blank`">-></a></li>
 "@
 
     $TwLi += "$tw`r"
 
 }
 
-echo $TwLi
+$TwLi += "</ul>`r"
+
+return $TwLi
