@@ -19,8 +19,8 @@ Post meta
 
 #0. Check file exist And execute q 
 
-SET THIS_PATH (Split-Path $MyInvocation.MyCommand.Path -parent) -Option Constant
-Set-Location ($THIS_PATH)
+$ThisPath = Split-Path $MyInvocation.MyCommand.Path -parent
+Set-Location $ThisPath
 
 echo "Get Records Count ..."
 
@@ -29,8 +29,8 @@ $c = q -d ',' "SELECT COUNT(*) FROM tweets.csv"
 echo "$c Tweets."`r`r
 
 
-$StartDay =  Get-Date(Get-Date -Date 2009-07-01)
-$EndDay = Get-Date(Get-Date -Date 2011-07-03)
+$StartDay =  Get-Date -Date 2009-07-02
+$EndDay = Get-Date -Date 2009-07-04
 
 #1. new xml object
 $WpXml = New-Object System.Xml.XmlDocument
@@ -39,7 +39,7 @@ $WpXml.CreateXmlDeclaration("1.0","UTF-8","no")
 $Channel = $WpXml.CreateElement( 'channel' )
 $WpXml.AppendChild($Channel)
 
-for ($i = 0 ;  $i -lt 3 ; $i++){ 
+for ($i = 0 ;  (New-TimeSpan ($StartDay.AddDays($i)) ($EndDay)).Days -cge 0 ; $i++){ 
 
     $Day = $StartDay.AddDays($i).ToString("yyyy-MM-dd")
 
@@ -75,4 +75,4 @@ for ($i = 0 ;  $i -lt 3 ; $i++){
 
 }
 
-$WpXml.Save($THIS_PATH + "\wp.xml")
+$WpXml.Save($ThisPath + "\wp.xml")
