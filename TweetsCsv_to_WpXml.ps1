@@ -17,10 +17,55 @@ Post meta
     4. category ... tweet
 #>
 
-#1. load xml template
+#0. Check file exist And execute q 
 
-#2. get post entry = ul list include tweets.
+Set-Location (Split-Path $MyInvocation.MyCommand.Path -parent)
 
-#3. build single entry node
+echo "Get Records Count ..."
 
-#4. add node to xml template
+$c = q -d ',' "SELECT COUNT(*) FROM tweets.csv"
+
+echo "$c Tweets."`r`r
+
+
+$StartDay =  Get-Date(Get-Date -Date 2009-07-03)
+$EndDay = Get-Date(Get-Date -Date 2011-07-03)
+
+#1. new xml object
+$WpXml = New-Object System.Xml.XmlDocument
+
+$Channel = $WpXml.CreateElement( 'channel' )
+$WpXml.AppendChild($Channel)
+
+for ($i = 10 ;  $i -lt 12 ; $i++){ 
+
+    $Day = $StartDay.AddDays($i).ToString("yyyy-MM-dd")
+
+    #2. get post entry = ul list include tweets.
+    . .\tweets_slice.ps1 $Day
+
+    $PostEntry = . .\build_list.ps1 $ResultQ
+
+    echo $PostEntry
+
+    #3. build single entry node
+    $Item = $WpXml.CreateElement( 'item' )
+    $Channel.AppendChild($Item)
+
+    [string]$t=  "Twitter Updates for " + $Day
+
+    $Title = $WpXml.CreateElement( 'title' )
+    $Item.AppendChild($Title)
+
+    $Title.InnerText = "Twitter Updates for " + $Day
+
+    $Content = $WpXml.CreateCDataSection( 'content:encoded' )
+    $Content.Data = $PostEntry
+
+    #$item.InsertAfter($Contet,$Title)
+
+    #4. add node to xml template
+
+}
+
+$WpXml.Save('D:\wp.xml')
