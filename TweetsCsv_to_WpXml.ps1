@@ -34,44 +34,28 @@ $EndDay = Get-Date -Date 2009-07-04
 
 #1. new xml object
 $WpXml = New-Object System.Xml.XmlDocument
-$WpXml.CreateXmlDeclaration("1.0","UTF-8","no")
+[void]$WpXml.CreateXmlDeclaration("1.0","UTF-8","no")
 
 $Channel = $WpXml.CreateElement( 'channel' )
-$WpXml.AppendChild($Channel)
+[void]$WpXml.AppendChild($Channel)
 
 for ($i = 0 ;  (New-TimeSpan ($StartDay.AddDays($i)) ($EndDay)).Days -cge 0 ; $i++){ 
 
     $Day = $StartDay.AddDays($i).ToString("yyyy-MM-dd")
-
-    #2. get post entry = ul list include tweets.
 
     #include tweets_slice.ps1
     . .\tweets_slice.ps1 $Day
 
     If ($ResultQ.Count -eq 0){ continue }
 
-    $PostEntry = . .\build_list.ps1 $ResultQ
-
-    # 3. build single entry node
-    # 3.1 Title Node
-    $Item = $WpXml.CreateElement( 'item' )
-
-    $Title = $WpXml.CreateElement( 'title' )
-    $Item.AppendChild($Title)
-
-    $Title.InnerText = "Twitter Updates for " + $Day
-
-    # 3.2Content Node
-    $Content = $WpXml.CreateCDataSection( 'content:encoded' )
-    $Content.Data = $PostEntry
-
-    $Item.AppendChild($Content)
-
-    $Channel.AppendChild($Item)
-
-    #$item.InsertAfter($Contet,$Title)
-
+    . .\build_list.ps1 $ResultQ
+    
+    . .\create_item_node.ps1 $TwLi $Day
+    
     #4. add node to xml template
+    [void]$Channel.AppendChild($Item)
+
+    echo "append $day Tweets."
 
 }
 

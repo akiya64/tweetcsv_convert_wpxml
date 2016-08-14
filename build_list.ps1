@@ -12,7 +12,7 @@ ResultQ[1]   1234678099, tweet2
 
 param([array] $TwArr)
 
-$TwLi = "<ul>`r"
+$TwLi = "`r<ul>`r"
 
 foreach($Row in $TwArr){
     
@@ -32,5 +32,3 @@ $Tw = @"
 }
 
 $TwLi += "</ul>`r"
-
-return $TwLi

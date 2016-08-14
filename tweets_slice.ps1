@@ -18,5 +18,3 @@ Set-Location (Split-Path $MyInvocation.MyCommand.Path -parent)
 $Query = "`"SELECT c1,c6 FROM ./tweets.csv WHERE c4 LIKE `'$Day%`' AND c6 NOT Like `'@%`'`""
 
 $ResultQ = q -d ',' $Query
-
-return $ResultQ
