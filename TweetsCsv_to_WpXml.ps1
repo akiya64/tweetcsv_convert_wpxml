@@ -1,26 +1,19 @@
 <#
 Args 
-    Required ---currently hard coding
     StartDay
     EndDay
-    Twitter ScreenName
 
-    optional
-    Month / Day Switch
-    Author
-    Category slug
-
-Post meta 
-    1. publish date ... tweet +1 day AM 00:00
-    2. author ... empty is allowed
-    3. post-entry ... ul> li> "tweet text"
-    4. category ... tweet
 #>
 
-#0. Check file exist And execute q 
+Param($StartDate, $EndDate) 
+
+#0. set path & set WPS use UTF-8
+
+chcp 65001
 
 $ThisPath = Split-Path $MyInvocation.MyCommand.Path -parent
 Set-Location $ThisPath
+
 
 echo "Get Records Count ..."
 
@@ -28,19 +21,22 @@ $c = q -d ',' "SELECT COUNT(*) FROM tweets.csv"
 
 echo "$c Tweets."`r`r
 
-$StartDay =  Get-Date -Date 2009-07-02
-$EndDay = Get-Date -Date 2009-07-03
+$StartDay = Get-Date -Date $StartDate
+$EndDay = Get-Date -Date $EndDate
 
 #1. new xml object
 #. .\prepare_wp_xml.ps1
 
-$WpXml = New-Object System.Xml.XmlDocument
-$Channel = $WpXml.CreateElement( 'channel' )
-[void]$WpXml.AppendChild($Channel)
+Set [String]REDIRECT_FILE_NAME "wp_import.html" -Option Constant
+
+
+echo "Create wp_import.html. For import to WordPress"
+
+echo '<wp:wxr_version>1.2</wp:wxr_version>`n' | Out-File wp_import.html -Encoding UTF8
 
 for ($i = 0 ;  (New-TimeSpan ($StartDay.AddDays($i)) ($EndDay)).Days -cge 0 ; $i++){ 
 
-    $Day = $StartDay.AddDays($i).ToString("yyyy-MM-dd")
+    $Day = $StartDay.AddDays($i)
 
     #include tweets_slice.ps1
     . .\tweets_slice.ps1 $Day
@@ -51,10 +47,11 @@ for ($i = 0 ;  (New-TimeSpan ($StartDay.AddDays($i)) ($EndDay)).Days -cge 0 ; $i
     
     . .\create_item_node.ps1 $TwLi $Day
     
-    #4. add node to xml template
-    [void]$WpXml.FirstChild.AppendChild($Item)
-    echo "append $day Tweets."
+    echo $Item | Out-File wp_import.html -Encoding UTF8 -Append
 
+    $AppendingMess = "append " + $Day.Tostring("yyyy-MM-dd") + " Tweets."
+
+    echo $AppendingMess
 }
 
-$WpXml.Save($ThisPath + "\wp.xml")
+Echo "Completed."

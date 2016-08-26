@@ -24,7 +24,7 @@ foreach($Row in $TwArr){
     $TwUrL = "https://twitter.com/K_akiya/status/" + $TwArr[0]
 
 $Tw = @"
-<li>$TwText <a href=`"$TwUrl`" target=`"_blank`">-></a></li>
+<li>$TwText <a href=`"$TwUrl`" target=`"_blank`">-&gt;</a></li>
 "@
 
     $TwLi += "$tw"
