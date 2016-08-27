@@ -21,6 +21,7 @@ TweetsCsv_to_WpXml.ps1 -StartDay 2011-07-11 -EndDay 2011-10-25
 ```
 
 ### Import HTML
+WordPress Post
 * Category : Tweets  
 * Author : Current Login Author  
 * Publish Date : 01:00 The Day after Tweets Summarized day.
