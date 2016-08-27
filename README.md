@@ -12,7 +12,7 @@ Execute SQL to CSV Tool "[q](https://github.com/harelba/q)"
 Cut-off CSV header.
 
 ### Args
-StartDate : yyyy-MM-dd
+StartDate : yyyy-MM-dd  
 EndDate : yyyy-MM-dd
 
 ### Example
