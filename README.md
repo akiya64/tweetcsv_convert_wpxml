@@ -10,6 +10,7 @@ Execute SQL to CSV Tool "[q](https://github.com/harelba/q)"
 
 ### Prepare
 Cut-off CSV header.
+Put same folder CSV and All ps1 script.
 
 ### Args
 StartDate : yyyy-MM-dd  
