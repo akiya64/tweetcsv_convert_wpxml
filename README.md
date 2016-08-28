@@ -1,4 +1,4 @@
-# Tweets CSV convert html for import WordPres
+# Tweets CSV convert html for import WordPress
 
 Windows PowerShell script that Summarized Tweets CSV by day,    
 And convert to HTML for WordPress import.
