@@ -6,11 +6,12 @@ And convert to HTML for WordPress import.
 
 ### Require
 
-Execute SQL to CSV Tool "[q](https://github.com/harelba/q)"
+Execute SQL for CSV Tool "[q](https://github.com/harelba/q)"
 
 ### Prepare
+1. Install "[q](https://github.com/harelba/q)"
 1. Cut-off CSV header.  
-2. Put same folder CSV and All ps1 script.
+2. Put same folder CSV and TweetsConvertWP.ps1 script.
 
 ### Args
 StartDate : yyyy-MM-dd  
@@ -19,10 +20,14 @@ EndDate : yyyy-MM-dd
 ### Example
 
 ```
-TweetsCsv_to_WpXml.ps1 -StartDay 2011-07-11 -EndDay 2011-10-25
+TweetsConvertWP.ps1 -StartDay 2011-07-11 -EndDay 2011-10-25
 ```
 
+Output wp_import.html in Same folder
+
 ### Import HTML
+You can import by WordPress "import". 
+
 WordPress Post
 * Category : Tweets  
 * Title : Tweets Update yyyy-MM-dd
@@ -39,4 +44,3 @@ WordPress Post
 ```
 
 Without Reply tweet.
-
