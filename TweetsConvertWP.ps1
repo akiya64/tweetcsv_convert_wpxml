@@ -1,50 +1,33 @@
 #Args
-Param($StartDate, $EndDate)
+Param($StartDate, $EndDate, $TwitterUserName)
 
 #Declaration Functions
 
-<#
-Slice CSV by day used by "q" 
-https://github.com/harelba/q
-
-Example
-Count record
-q -d ',' "SELECT COUNT(*) FROM tweets"
-
-Tweet text by Unique ID
-q -E sjis -d ',' "SELECT c6 FROM tweets WHERE c1='763551255906004992'"
-#>
+# Slice CSV by day used by
 Function Slice-Csv($Day) {
 
-$DayString = $Day.ToString("yyyy-MM-dd")
+[string]$DayString = $Day.ToString("yyyy-MM-dd") + "*"
 
 # Select by Column No.Cutoff header. And timstamp is string, so use "like" syntax
-$Query = "`"SELECT c1,c6 FROM ./tweets.csv WHERE c4 LIKE `'$DayString%`' AND c6 NOT Like `'@%`'`""
+#./tweets.csv WHERE c4 LIKE `'$DayString%`' AND c6 NOT Like `'@%`'`""
 
-$ResultQ = q -d ',' $Query
+$ResultWhere = Import-Csv './tweets.csv' | Where-Object {$_.timestamp -like $DayString -and $_.text -notlike '@*'} 
 
-return $ResultQ
+Return $ResultWhere
+
 }
 
-#create ul list from SQL result 
+#create ul list
 Function Build-List($Tweets){
-    <# Array Data set
-                        id , text
-    ResultQ[0] = 1234567890, tweet 
-    ResultQ[1]   1234678099, tweet2
-        :
-    #>
-
     $TwLi = "<ul>"
 
-    foreach($Row in $Tweets){
+    $Tweets | ForEach-Object{
     
-        $Tweets = $Row.Split(",")
 
-        $TwText = $Tweets[1]
+        $TwText = $_.text
 
         # make permanent URI
-        $TwUrL = "https://twitter.com/K_akiya/status/" + $Tweets[0]
+        $TwUrL = "https://twitter.com/"+ $TwitterUserName +"/status/" + $_.tweet_id
 
 $Tw = @"
 <li>$TwText <a href=`"$TwUrl`" target=`"_blank`">-&gt;</a></li>
@@ -94,9 +77,9 @@ Set-Location $ThisPath
 
 echo "Get Records Count ..."
 
-$c = q -d ',' "SELECT COUNT(*) FROM tweets.csv"
+[String]$c = (Import-Csv './tweets.csv').Count.tostring() + "  Tweets.`n`n"
 
-echo "$c Tweets."`r`r
+echo $c
 
 $StartDay = Get-Date -Date $StartDate
 $EndDay = Get-Date -Date $EndDate
@@ -112,7 +95,7 @@ for ($i = 0 ;  (New-TimeSpan ($StartDay.AddDays($i)) ($EndDay)).Days -cge 0 ; $i
 
     $Day = $StartDay.AddDays($i)
 
-    $Sliced = Slice-Csv($Day)
+    $Sliced = Slice-Csv $Day
 
     If ($Sliced.Count -eq 0){ continue }
 
