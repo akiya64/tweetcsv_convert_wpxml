@@ -19,7 +19,7 @@ Return $ResultWhere
 
 #create ul list
 Function Build-List($Tweets){
-    $TwLi = "<ul>"
+    $TwLi = "<ul>`n"
 
     $Tweets | ForEach-Object{
     
@@ -30,7 +30,7 @@ Function Build-List($Tweets){
         $TwUrL = "https://twitter.com/"+ $TwitterUserName +"/status/" + $_.tweet_id
 
 $Tw = @"
-<li>$TwText <a href=`"$TwUrl`" target=`"_blank`">-&gt;</a></li>
+`t<li>$TwText <a href=`"$TwUrl`" target=`"_blank`">-&gt;</a></li>`n
 "@
 
         $TwLi += "$tw"
