@@ -11,7 +11,7 @@ Function Slice-Csv($Day) {
 # Select by Column No.Cutoff header. And timstamp is string, so use "like" syntax
 #./tweets.csv WHERE c4 LIKE `'$DayString%`' AND c6 NOT Like `'@%`'`""
 
-$ResultWhere = Import-Csv './tweets.csv' | Where-Object {$_.timestamp -like $DayString -and $_.text -notlike '@*'} 
+$ResultWhere = Import-Csv './tweets.csv' | Where-Object {$_.timestamp -like $DayString -and $_.text -notlike '@*'} | sort $_.timestamp
 
 Return $ResultWhere
 
