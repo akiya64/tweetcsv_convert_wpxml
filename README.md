@@ -4,7 +4,7 @@ Windows PowerShell script that Summarized Tweets CSV by day,
 And convert to HTML for WordPress import.
 
 ### Prepare
-Tweets.csv download from [your Twitter account](https://twitter.com/settings/account).
+Tweets.csv download from [your Twitter account](https://twitter.com/settings/account).  
 Put Tweets.csv and TweetConvertWP.ps1 same folder.
 
 ### Args
