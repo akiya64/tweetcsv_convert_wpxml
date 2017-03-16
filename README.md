@@ -11,7 +11,7 @@ TwitterUserName : ScreenName inclue URL
 ### Example
 
 ```
-TweetsConvertWP.ps1 -StartDay 2011-07-11 -EndDay 2011-10-25 -TwitterUserName K_akiya
+TweetsConvertWP.ps1 -StartDate 2011-07-11 -EndDate 2011-10-25 -TwitterUserName K_akiya
 ```
 
 Output wp_import.html in Same folder
@@ -35,3 +35,4 @@ WordPress Post
 ```
 
 Without Reply tweet.
+Sort time acsend.
