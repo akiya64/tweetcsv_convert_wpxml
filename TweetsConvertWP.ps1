@@ -9,9 +9,8 @@ Function Slice-Csv($Day) {
 [string]$DayString = $Day.ToString("yyyy-MM-dd") + "*"
 
 # Select by Column No.Cutoff header. And timstamp is string, so use "like" syntax
-#./tweets.csv WHERE c4 LIKE `'$DayString%`' AND c6 NOT Like `'@%`'`""
 
-$ResultWhere = Import-Csv './tweets.csv' | Where-Object {$_.timestamp -like $DayString -and $_.text -notlike '@*'} | sort $_.timestamp
+$ResultWhere = Import-Csv './tweets.csv' | Where-Object {$_.timestamp -like $DayString -and $_.text -notlike '@*'} | Sort-Object { $_.timestamp }
 
 Return $ResultWhere
 
@@ -56,7 +55,7 @@ Function Build-Itemnode($EntryText ,[DateTime]$Day){
 
     # Add Contents
     $Item += "    <title>Twitter Updates for " + $Day.ToString("yyyy-MM-dd") + "</title>`n"
-    $Item += "    <content:encoded>" + $EntryText + "</content:encoded>`n"
+    $Item += "    <content:encoded>`n" + $EntryText + "</content:encoded>`n"
 
     # Close Item Node
     $Item += "  </item>"
@@ -89,7 +88,7 @@ Set [String]REDIRECT_FILE_NAME "wp_import.html" -Option Constant
 
 echo "Create wp_import.html. For import to WordPress"
 
-echo '<wp:wxr_version>1.2</wp:wxr_version>`n' | Out-File wp_import.html -Encoding UTF8
+echo "<wp:wxr_version>1.2</wp:wxr_version>" | Out-File wp_import.html -Encoding UTF8
 
 for ($i = 0 ;  (New-TimeSpan ($StartDay.AddDays($i)) ($EndDay)).Days -cge 0 ; $i++){ 
 
