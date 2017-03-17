@@ -36,7 +36,7 @@ $Tw = @"
 
 }
 
-$TwLi += "</ul>"
+$TwLi += "</ul>`n"
 
 return $TwLi
 }
@@ -44,21 +44,21 @@ return $TwLi
 # build single entry node as Plaintext
 Function Build-Itemnode($EntryText ,[DateTime]$Day){
 
-    [String]$Item = "  <item>`n"
+    [String]$Item = "`t<item>`n"
 
     # Add WordPress Status node
-    $Item += "    <pubDate>" + $Day.AddDays(1).ToString("yyyy-MM-dd") + " 00:30:00 +0900</pubDate>`n"
-    $Item += "    <wp:post_date>" + $Day.AddDays(1).ToString("yyyy-MM-dd") + " 00:30:00</wp:post_date>`n"
-    $Item += "    <wp:post_type>post</wp:post_type>`n"
-    $Item += "    <wp:status>publish</wp:status>`n"
-    $Item += "    <category domain=`"category`" nicename=`"tweets`">Tweets</category>`n"
+    $Item += "`t`t<pubDate>" + $Day.AddDays(1).ToString("yyyy-MM-dd") + " 00:30:00 +0900</pubDate>`n"
+    $Item += "`t`t<wp:post_date>" + $Day.AddDays(1).ToString("yyyy-MM-dd") + " 00:30:00</wp:post_date>`n"
+    $Item += "`t`t<wp:post_type>post</wp:post_type>`n"
+    $Item += "`t`t<wp:status>publish</wp:status>`n"
+    $Item += "`t`t<category domain=`"category`" nicename=`"tweets`">Tweets</category>`n"
 
     # Add Contents
-    $Item += "    <title>Twitter Updates for " + $Day.ToString("yyyy-MM-dd") + "</title>`n"
-    $Item += "    <content:encoded>`n" + $EntryText + "</content:encoded>`n"
+    $Item += "`t`t<title>Twitter Updates for " + $Day.ToString("yyyy-MM-dd") + "</title>`n"
+    $Item += "`t`t<content:encoded>`n" + $EntryText + "`t</content:encoded>`n"
 
     # Close Item Node
-    $Item += "  </item>"
+    $Item += "`t</item>"
 
     return $Item
 }
