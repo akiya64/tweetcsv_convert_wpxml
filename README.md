@@ -24,10 +24,10 @@ Output wp_import.html in Same folder
 You can import by WordPress "import".
 
 WordPress Post
-* Category : Tweets
+* Category : 'Tweets', default post category
 * Title : Tweets Update yyyy-MM-dd
 * Author : Current Login Author
-* Publish Date : 01:00 The Day after Tweets Summarized day.
+* Publish Date : 00:30 The Day after Tweets Summarized day.
 
 #### Content 
 
